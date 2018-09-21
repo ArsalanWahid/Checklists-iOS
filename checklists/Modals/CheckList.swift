@@ -29,4 +29,10 @@ class CheckList: NSObject,NSCoding {
         items = aDecoder.decodeObject(forKey: "Items") as! [Item]
         super.init()
     }
+    
+    //Counts the number of unchecked items in the checkList
+    func unCheckedItems() -> Int{
+        //Here $0 is the sum/count , use $1 for the item
+        return items.reduce(0){$0 + ($1.isChecked ? 0 : 1)}
+    }
 }
