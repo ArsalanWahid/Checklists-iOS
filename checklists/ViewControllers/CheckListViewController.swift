@@ -8,6 +8,8 @@
 
 import UIKit
 
+
+
 class CheckListViewController: UITableViewController,ItemTableViewControllerDelegate {
 
     //MARK:- Properties
@@ -18,8 +20,6 @@ class CheckListViewController: UITableViewController,ItemTableViewControllerDele
     override func viewDidLoad() {
         super.viewDidLoad()
         title = checklist.name
-//        print("\(documentDirectory())")
-//        print("\(dataFilePath())")
     }
     
     
@@ -74,10 +74,12 @@ class CheckListViewController: UITableViewController,ItemTableViewControllerDele
     }
     
     func itemTableViewController(_ controller: ItemTableViewController, didFinishAdding item: Item) {
-        let itemCount = checklist.items.count
+ //       let itemCount = checklist.items.count
         checklist.items.append(item)
-        let index = IndexPath(item: itemCount, section: 0)
-        tableView.insertRows(at: [index], with: .automatic)
+//        let index = IndexPath(item: itemCount, section: 0)
+//        tableView.insertRows(at: [index], with: .automatic)
+        sortItems()
+        tableView.reloadData()
         dismiss(animated: true, completion: nil)
     
     }
@@ -113,6 +115,13 @@ class CheckListViewController: UITableViewController,ItemTableViewControllerDele
         }
     }
     
+    //Will sort items by name
+    func sortItems(){
+        checklist.items.sort(by: {
+            item1,item2 in
+            return item1.name.localizedStandardCompare(item2.name) == .orderedAscending
+        })
+    }
 
 }
 
