@@ -59,6 +59,7 @@ class DataModel{
         let path = dataFilePath()
         //check if there is anything in the path given
         if let data = try? Data(contentsOf: path) {
+            sortCheckLists() // to make sure data is sorted 
             //now decode the stuff
             let unarchiver = NSKeyedUnarchiver(forReadingWith: data)
             checklists = unarchiver.decodeObject(forKey: "checkLists") as! [CheckList]
@@ -86,6 +87,14 @@ class DataModel{
             UserDefaults.standard.set(false, forKey: UserDefaultKeys.FirstTime.rawValue)
             UserDefaults.standard.synchronize()
         }
+    }
+    
+    //Function will sort lists
+    func sortCheckLists(){
+        checklists.sort(by: {
+            checkList1,checklist2 in
+            return checkList1.name.localizedStandardCompare(checklist2.name) == .orderedAscending
+        })
     }
 }
 
