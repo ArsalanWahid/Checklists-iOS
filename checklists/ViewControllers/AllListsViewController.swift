@@ -22,6 +22,11 @@ class AllListsViewController: UITableViewController,ListDetailTableViewControlle
         print("This is going to work")
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         navigationController?.delegate = self
         let index =  dataModel.indexOfSelectedCheckList  //default value -1
@@ -41,6 +46,18 @@ class AllListsViewController: UITableViewController,ListDetailTableViewControlle
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell  = tableView.dequeueReusableCell(withIdentifier: cellIdentifiers.checkList.rawValue, for: indexPath)
         cell.textLabel?.text = dataModel.checklists[indexPath.row].name
+        
+        //Logic for improved items user experience
+        var count = dataModel.checklists[indexPath.row].unCheckedItems()
+        if dataModel.checklists[indexPath.row].items.count == 0{
+            cell.detailTextLabel?.text = "No Items"
+        }
+        else if count == 0 {
+            cell.detailTextLabel?.text = "All Done"
+        }else{
+            cell.detailTextLabel?.text = "\(count) Remaining"
+        }
+        
         return cell
     }
     
@@ -87,11 +104,9 @@ class AllListsViewController: UITableViewController,ListDetailTableViewControlle
     }
     
     func listTableViewController(_ controller: ListDetailTableViewController, didFinishAdding checkList: CheckList) {
-        let count = dataModel.checklists.count
         dataModel.checklists.append(checkList)
-        let index = IndexPath(item: count, section: 0)
-        tableView.insertRows(at: [index], with: .fade)
-        //save the data
+        dataModel.sortCheckLists()
+        tableView.reloadData()
         dismiss(animated: true, completion: nil)
     }
     
@@ -101,8 +116,10 @@ class AllListsViewController: UITableViewController,ListDetailTableViewControlle
             if let cell = tableView.cellForRow(at: indexpath){
                 cell.textLabel?.text = dataModel.checklists[indexpath.row].name
             }
-        }
+        dataModel.sortCheckLists()
+        tableView.reloadData()
         dismiss(animated: true, completion: nil)
+        }
     }
     
     
