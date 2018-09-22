@@ -10,8 +10,8 @@ import UIKit
 
 
 
-class CheckListViewController: UITableViewController,ItemTableViewControllerDelegate {
-
+class CheckListViewController: UITableViewController {
+    
     //MARK:- Properties
     var checklist:CheckList!
     
@@ -34,7 +34,6 @@ class CheckListViewController: UITableViewController,ItemTableViewControllerDele
         let text = cell.viewWithTag(1) as! UILabel
         let checkmark = cell.viewWithTag(2) as! UILabel
         text.text = checklist.items[indexPath.row].name
-        
         if checklist.items[indexPath.row].isChecked{
             checkmark.text = "√"
         }else{
@@ -64,41 +63,6 @@ class CheckListViewController: UITableViewController,ItemTableViewControllerDele
         ()
     }
     
-
-
-    
-    
-    //MARK:- ItemTableViewController Delegate
-    
-    func itemTableViewControllerDidCancel(_ controller: ItemTableViewController) {
-        dismiss(animated: true, completion: nil)
-    }
-    
-    func itemTableViewController(_ controller: ItemTableViewController, didFinishAdding item: Item) {
- //       let itemCount = checklist.items.count
-        checklist.items.append(item)
-//        let index = IndexPath(item: itemCount, section: 0)
-//        tableView.insertRows(at: [index], with: .automatic)
-        sortItems()
-        tableView.reloadData()
-        dismiss(animated: true, completion: nil)
-    
-    }
-    
-    func itemTableViewController(_ controller: ItemTableViewController, didFinishEditing Item: Item) {
-        if let index = checklist.items.firstIndex(where: {$0 === Item}){
-            let indexPath = IndexPath(item: index, section: 0)
-            if let cell = tableView.cellForRow(at: indexPath){
-                //update the cell text
-                let name = cell.viewWithTag(1) as! UILabel
-                name.text = checklist.items[indexPath.row].name
-            }
-        }
-    
-        dismiss(animated: true, completion: nil)
-    }
-    
-    
     //MARK:- Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == segueIdentifiers.addItem.rawValue{
@@ -123,6 +87,36 @@ class CheckListViewController: UITableViewController,ItemTableViewControllerDele
             return item1.name.localizedStandardCompare(item2.name) == .orderedAscending
         })
     }
+}
 
+//MARK:- ItemTableViewController Delegate
+extension CheckListViewController:ItemTableViewControllerDelegate {
+    
+    func itemTableViewControllerDidCancel(_ controller: ItemTableViewController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func itemTableViewController(_ controller: ItemTableViewController, didFinishAdding item: Item) {
+        //       let itemCount = checklist.items.count
+        checklist.items.append(item)
+        //        let index = IndexPath(item: itemCount, section: 0)
+        //        tableView.insertRows(at: [index], with: .automatic)
+        sortItems()
+        tableView.reloadData()
+        dismiss(animated: true, completion: nil)
+        
+    }
+    
+    func itemTableViewController(_ controller: ItemTableViewController, didFinishEditing Item: Item) {
+        if let index = checklist.items.firstIndex(where: {$0 === Item}){
+            let indexPath = IndexPath(item: index, section: 0)
+            if let cell = tableView.cellForRow(at: indexPath){
+                //update the cell text
+                let name = cell.viewWithTag(1) as! UILabel
+                name.text = checklist.items[indexPath.row].name
+            }
+        }
+        dismiss(animated: true, completion: nil)
+    }
 }
 
