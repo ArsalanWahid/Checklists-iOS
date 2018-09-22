@@ -9,12 +9,14 @@
 import Foundation
 import UIKit
 
+//MARK:- Delegate
 protocol IconPickerViewControllerDelegate:AnyObject {
     func inconPickerViewController(_ controller:IconPickerViewController, didPick iconName:String)
 }
 
 
 class IconPickerViewController: UITableViewController{
+   
     weak var delegate: IconPickerViewControllerDelegate?
     
     let icons = [
@@ -29,6 +31,7 @@ class IconPickerViewController: UITableViewController{
         "Photos",
         "Trips" ]
     
+    //MARK:- TableViewDataSource
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return icons.count
     }
@@ -41,6 +44,7 @@ class IconPickerViewController: UITableViewController{
         return cell
     }
     
+    //MARK:- TableViewDelegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         delegate?.inconPickerViewController(self, didPick: icons[indexPath.row])
     }
