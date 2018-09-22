@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AllListsViewController: UITableViewController,ListDetailTableViewControllerDelegate,UINavigationControllerDelegate {
+class AllListsViewController: UITableViewController {
  
     //will this be affecting the code later on
     //MARK:- PROPERTIES
@@ -29,10 +29,12 @@ class AllListsViewController: UITableViewController,ListDetailTableViewControlle
     
     override func viewDidAppear(_ animated: Bool) {
         navigationController?.delegate = self
+        
         let index =  dataModel.indexOfSelectedCheckList  //default value -1
         print("This is the:\(index)")
+        
+        //This code was crashing as the index was sometimes out of sync
         if index >= 0 && index < dataModel.checklists.count {
-        //This crashed as there was no d
         let checklist = dataModel.checklists[index]
         performSegue(withIdentifier: segueIdentifiers.showCheckList.rawValue, sender: checklist)
         }
@@ -96,11 +98,22 @@ class AllListsViewController: UITableViewController,ListDetailTableViewControlle
             let controller = nvc.topViewController as! ListDetailTableViewController
             controller.delegate = self
         }//the edit methods was done using tableview delegate method
+    }
+}
+
+ //MARK:- UINavigationControllerDelegate
+extension AllListsViewController:UINavigationControllerDelegate{
+   
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        if viewController === self{
+            dataModel.indexOfSelectedCheckList = -1
         }
+    }
+}
+
+    //MARK:- ListDetailTableViewControllerDelegate
+extension AllListsViewController:ListDetailTableViewControllerDelegate{
     
-
-
-    //MARK:- ListDetail tableview delegate
     func listTableViewControllerDidcancel(_ controller: ListDetailTableViewController) {
         dismiss(animated: true, completion: nil)
     }
@@ -118,19 +131,10 @@ class AllListsViewController: UITableViewController,ListDetailTableViewControlle
             if let cell = tableView.cellForRow(at: indexpath){
                 cell.textLabel?.text = dataModel.checklists[indexpath.row].name
             }
-        dataModel.sortCheckLists()
-        tableView.reloadData()
-        dismiss(animated: true, completion: nil)
+            dataModel.sortCheckLists()
+            tableView.reloadData()
+            dismiss(animated: true, completion: nil)
         }
     }
     
-    
-    //MARK:- UINavigationcontroller delegate
-    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        if viewController === self{
-            dataModel.indexOfSelectedCheckList = -1
-        }
-    }
-
 }
-
