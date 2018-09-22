@@ -11,11 +11,15 @@ import Foundation
 //Prepped this class so it can work is NSCODER
 class Item:NSObject, NSCoding{
     
-    var name:String = ""
-    var isChecked = false
+    var name:String
+    var isChecked:Bool
     
-    init(name: String){
+    convenience init(name:String){
+        self.init(name: name, isChecked: false)
+    }
+    init(name: String,isChecked:Bool){
         self.name = name
+        self.isChecked = isChecked
     }
     
     //This method is for unfreezing the items when needed

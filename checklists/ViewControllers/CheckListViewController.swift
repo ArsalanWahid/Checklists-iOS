@@ -20,6 +20,7 @@ class CheckListViewController: UITableViewController,ItemTableViewControllerDele
     override func viewDidLoad() {
         super.viewDidLoad()
         title = checklist.name
+        tableView.viewWithTag(2)?.tintColor = view.tintColor
     }
     
     

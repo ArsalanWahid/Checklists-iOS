@@ -45,10 +45,12 @@ class AllListsViewController: UITableViewController,ListDetailTableViewControlle
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell  = tableView.dequeueReusableCell(withIdentifier: cellIdentifiers.checkList.rawValue, for: indexPath)
+        
         cell.textLabel?.text = dataModel.checklists[indexPath.row].name
+        cell.imageView?.image = UIImage(named: dataModel.checklists[indexPath.row].iconName)
         
         //Logic for improved items user experience
-        var count = dataModel.checklists[indexPath.row].unCheckedItems()
+        let count = dataModel.checklists[indexPath.row].unCheckedItems()
         if dataModel.checklists[indexPath.row].items.count == 0{
             cell.detailTextLabel?.text = "No Items"
         }
