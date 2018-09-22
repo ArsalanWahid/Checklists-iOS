@@ -9,8 +9,8 @@
 import UIKit
 
 
+    //MARK:- Delegate
 protocol ListDetailTableViewControllerDelegate:AnyObject{
-    
     func listTableViewControllerDidcancel(_ controller: ListDetailTableViewController)
     func listTableViewController(_ controller: ListDetailTableViewController, didFinishAdding checkList: CheckList)
     func listTableViewController(_ controller: ListDetailTableViewController, didFinishEditing checkList: CheckList)
@@ -18,7 +18,7 @@ protocol ListDetailTableViewControllerDelegate:AnyObject{
 }
 
 
-class ListDetailTableViewController: UITableViewController,UITextFieldDelegate,IconPickerViewControllerDelegate {
+class ListDetailTableViewController: UITableViewController {
 
     //MARK:- Properties
     var checkListToEdit:CheckList?
@@ -37,7 +37,6 @@ class ListDetailTableViewController: UITableViewController,UITextFieldDelegate,I
     @IBAction func cancel(_ sender: Any) {
         delegate?.listTableViewControllerDidcancel(self)
     }
-    
     
     @IBAction func done(_ sender: Any) {
         if let checkList = checkListToEdit{
@@ -74,9 +73,26 @@ class ListDetailTableViewController: UITableViewController,UITextFieldDelegate,I
       
     }
 
-    // MARK: - Table view data source
     
-    //MARK:- Table view delegate
+    //MARK:- Segues
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "pickIcon"{
+            let controller = segue.destination as! IconPickerViewController
+            controller.delegate = self
+        }
+    }
+}
+
+    //MARK:- TextFieldDelegate
+extension ListDetailTableViewController:UITextFieldDelegate{
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let oldText = addCheckList.text! as NSString
+        let newText = oldText.replacingCharacters(in: range, with: string)
+        donebarButton.isEnabled = newText.count > 0
+        return true
+    }
+    
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         //Seciton start with index zero offcourse
         //Allows control over which cell can or cant be tapped
@@ -86,31 +102,17 @@ class ListDetailTableViewController: UITableViewController,UITextFieldDelegate,I
             return nil
         }
     }
-    
-    //MARK:- TextFieldDelegate
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let oldText = addCheckList.text! as NSString
-        let newText = oldText.replacingCharacters(in: range, with: string)
-        donebarButton.isEnabled = newText.count > 0
-        return true
-    }
-    
-    //MARK:- Icon picker delegate
+}
+
+    //MARK:- IconPickerViewControllerDelegate
+extension ListDetailTableViewController:IconPickerViewControllerDelegate{
     func inconPickerViewController(_ controller: IconPickerViewController, didPick iconName: String) {
         //set the icon name to the one select
         self.iconName = iconName
         //Show it on screen
         self.iconImageView.image = UIImage(named: iconName)
         //Pop the controller
-        //This let is need as UInav is an optional 
+        //This let is need as UInav is an optional
         let _ = navigationController?.popViewController(animated: true)
-    }
-    
-    //MARK:- Segues
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "pickIcon"{
-            let controller = segue.destination as! IconPickerViewController
-            controller.delegate = self
-        }
     }
 }

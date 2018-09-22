@@ -8,7 +8,7 @@
 
 import UIKit
 
-
+//MARK:- Delegate
 protocol ItemTableViewControllerDelegate:AnyObject{
     func itemTableViewController(_ controller: ItemTableViewController, didFinishAdding item: Item)
     func itemTableViewControllerDidCancel(_ controller: ItemTableViewController)
@@ -16,18 +16,18 @@ protocol ItemTableViewControllerDelegate:AnyObject{
     
 }
 
-class ItemTableViewController: UITableViewController,UITextFieldDelegate {
+class ItemTableViewController: UITableViewController {
     
-    //MARK:- PROPERTIES
+    //MARK:- Properties
     var itemToEdit: Item?
     weak var delegate: ItemTableViewControllerDelegate?
     
     
-    //MARK:- OUTLETS
+    //MARK:- Outlets
     @IBOutlet weak var addItemTextField: UITextField!
     @IBOutlet weak var doneBarButton: UIBarButtonItem!
     
-    //MARK:- VIEW LIFECYCLE
+    //MARK:- View LifeCycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         addItemTextField.becomeFirstResponder()
@@ -48,7 +48,7 @@ class ItemTableViewController: UITableViewController,UITextFieldDelegate {
         }
     }
     
-    //MARK:- TABLEVIEW DELEGATE
+    //MARK:- TableviewDelegate
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         return nil
     }
@@ -56,7 +56,7 @@ class ItemTableViewController: UITableViewController,UITextFieldDelegate {
         return 44
     }
     
-    //MARK:- ACTIONS
+    //MARK:- Actions
     @IBAction func cancel(_ sender: Any) {
         delegate?.itemTableViewControllerDidCancel(self)
     }
@@ -74,12 +74,16 @@ class ItemTableViewController: UITableViewController,UITextFieldDelegate {
         }
     }
     
-    //MARK:- TEXTFILED DELEGATE
+   
+    
+}
+
+  //MARK:- TextFieldDelegate
+extension ItemTableViewController:UITextFieldDelegate{
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let oldText = addItemTextField.text! as NSString
         let newText = oldText.replacingCharacters(in: range, with: string)
         doneBarButton.isEnabled = (newText.count > 0)
         return true
     }
-    
 }
