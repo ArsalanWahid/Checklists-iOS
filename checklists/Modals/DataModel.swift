@@ -12,7 +12,7 @@ import Foundation
 class DataModel{
     
     
-    //Using computed Porperty
+    //MARK:Properties
     var indexOfSelectedCheckList:Int{
         get{
             return UserDefaults.standard.integer(forKey: UserDefaultKeys.CheckListIndex.rawValue)
@@ -23,6 +23,9 @@ class DataModel{
         }
     }
     
+    var checklists = [CheckList]()
+    
+    //MARK:- Initializer
     init(){
         loadChecklists()
         registerDefaults()
@@ -30,8 +33,6 @@ class DataModel{
         print("\(dataFilePath())")
     }
     
-    //will contain the data for the checklists
-    var checklists = [CheckList]()
     
     //MARK:- FILE SYSTEM
      func documentDirectory() -> URL{
@@ -59,7 +60,7 @@ class DataModel{
         let path = dataFilePath()
         //check if there is anything in the path given
         if let data = try? Data(contentsOf: path) {
-            sortCheckLists() // to make sure data is sorted 
+            sortCheckLists() // to make sure data is sorted
             //now decode the stuff
             let unarchiver = NSKeyedUnarchiver(forReadingWith: data)
             checklists = unarchiver.decodeObject(forKey: "checkLists") as! [CheckList]
@@ -77,6 +78,7 @@ class DataModel{
         UserDefaults.standard.register(defaults: dic)
     }
     
+    //This function will be run the first time the app load on a new device
     func handleFirstTime(){
         let firsTime = UserDefaults.standard.bool(forKey: UserDefaultKeys.FirstTime.rawValue)
         if firsTime{
@@ -89,6 +91,7 @@ class DataModel{
         }
     }
     
+    //MARK:- Sorting
     //Function will sort lists
     func sortCheckLists(){
         checklists.sort(by: {
