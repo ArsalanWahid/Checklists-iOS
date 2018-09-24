@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import UserNotifications
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -15,11 +15,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     let dataModel = DataModel()
+    let center = UNUserNotificationCenter.current()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
         let nvc = window!.rootViewController as! UINavigationController
         let controller = nvc.viewControllers[0] as! AllListsViewController
         controller.dataModel = dataModel
+        center.delegate = self
+        
+        //MARK:- Notification permission and settings check
+        //Request the user for notification permission
+        center.requestAuthorization(options: [.alert,.sound], completionHandler: {
+            granted, error in
+            if granted{
+                print("User gave notification Permission")
+            }else{
+                print("User did not give notification permission")
+            }
+        })
         return true
     }
 
@@ -54,3 +68,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+extension AppDelegate:UNUserNotificationCenterDelegate{
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        print("Recieved local notification \(notification)")
+    }
+}

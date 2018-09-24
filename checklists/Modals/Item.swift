@@ -13,13 +13,20 @@ class Item:NSObject, NSCoding{
     
     var name:String
     var isChecked:Bool
+    var shouldRemind:Bool
+    var dueDate:Date
+    var itemID:Int
     
     convenience init(name:String){
-        self.init(name: name, isChecked: false)
+        self.init(name: name, isChecked: false, shouldRemind: false, date: Date.init())
     }
-    init(name: String,isChecked:Bool){
+    init(name: String,isChecked:Bool,shouldRemind:Bool,date:Date){
         self.name = name
         self.isChecked = isChecked
+        self.shouldRemind = shouldRemind
+        self.itemID = DataModel.nextCheckListItemID()
+        self.dueDate = date
+        
     }
     
     //This method is for unfreezing the items when needed
@@ -27,6 +34,9 @@ class Item:NSObject, NSCoding{
     required init?(coder aDecoder: NSCoder) {
         name = aDecoder.decodeObject(forKey: "Text") as! String
         isChecked = aDecoder.decodeBool(forKey: "Checked")
+        shouldRemind = aDecoder.decodeBool(forKey: "ShouldRemind")
+        itemID = aDecoder.decodeInteger(forKey: "ItemID")
+        dueDate = aDecoder.decodeObject(forKey: "DueDate") as! Date
         //super.init()
     }
     
@@ -34,5 +44,8 @@ class Item:NSObject, NSCoding{
     func encode(with aCoder: NSCoder) {
         aCoder.encode(name, forKey: "Text")
         aCoder.encode(isChecked, forKey: "Checked")
+        aCoder.encode(shouldRemind, forKey: "ShouldRemind")
+        aCoder.encode(itemID, forKey: "ItemID")
+        aCoder.encode(dueDate, forKey: "DueDate")
     }
 }

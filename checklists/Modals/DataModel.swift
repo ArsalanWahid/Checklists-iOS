@@ -73,8 +73,11 @@ class DataModel{
     //MARK:- UserDefaults
     //Allows to set default values for keys in Userdefaults
     func registerDefaults(){
-        let dic:[String:Any] = [UserDefaultKeys.CheckListIndex.rawValue: -1,
-                               UserDefaultKeys.FirstTime.rawValue:true]
+        let dic:[String:Any] = [
+            UserDefaultKeys.CheckListIndex.rawValue: -1,
+            UserDefaultKeys.FirstTime.rawValue:true,
+            UserDefaultKeys.CheckListItemID.rawValue : 0
+        ]
         UserDefaults.standard.register(defaults: dic)
     }
     
@@ -98,6 +101,17 @@ class DataModel{
             checkList1,checklist2 in
             return checkList1.name.localizedStandardCompare(checklist2.name) == .orderedAscending
         })
+    }
+    
+    //for every checklist item created this function will run
+    //default value for the key has been set to 0
+    class func nextCheckListItemID() -> Int{
+        let usrdefault = UserDefaults.standard
+        let itemID = usrdefault.integer(forKey: UserDefaultKeys.CheckListItemID.rawValue)
+        usrdefault.set(itemID + 1, forKey: UserDefaultKeys.CheckListItemID.rawValue)
+        usrdefault.synchronize()
+        return itemID
+        
     }
 }
 
