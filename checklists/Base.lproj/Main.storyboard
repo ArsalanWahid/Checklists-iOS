@@ -208,6 +208,9 @@
                                 <date key="date" timeIntervalSinceReferenceDate="559508747.01145899">
                                     <!--2018-09-24 19:05:47 +0000-->
                                 </date>
+                                <connections>
+                                    <action selector="updatedate:" destination="FLk-2z-9cM" eventType="valueChanged" id="LyR-Xa-Brz"/>
+                                </connections>
                             </datePicker>
                         </subviews>
                         <constraints>
