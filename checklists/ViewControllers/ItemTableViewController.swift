@@ -13,7 +13,7 @@
     how to make the date picker menu when date is clicked
  */
 import UIKit
-
+import UserNotifications
 //MARK:- Delegate
 protocol ItemTableViewControllerDelegate:AnyObject{
     func itemTableViewController(_ controller: ItemTableViewController, didFinishAdding item: Item)
@@ -57,7 +57,7 @@ class ItemTableViewController: UITableViewController {
             addItemTextField.text = item.name
             doneBarButton.isEnabled = true
             shouldRemindSwitch.isOn = item.shouldRemind
-            dueDate = item.dueDate
+            dueDate = item.dueDate!
         }else{
             //Add an Item
             title = "Add Item"
@@ -141,15 +141,32 @@ class ItemTableViewController: UITableViewController {
             item.name = addItemTextField.text!      // pass the name of item added
             item.shouldRemind = shouldRemindSwitch.isOn  // pass the switch status
             item.dueDate = dueDate                  //pass the date to be notified
+            item.scheduleNotification()
             delegate?.itemTableViewController(self, didFinishEditing: item)
         }else{
+            //Make a new item
             let item = Item(name: addItemTextField.text!)
+            item.shouldRemind = shouldRemindSwitch.isOn
+            item.dueDate = dueDate
+            print("IS the value being set\(item.shouldRemind)")
+            item.scheduleNotification()
             delegate?.itemTableViewController(self, didFinishAdding: item)
         }
     }
     @IBAction func updatedate(_ sender: Any) {
         dueDate = datePicker.date
         updateDueDateLabel()
+    }
+    @IBAction func shouldRemindToggle(_ sender: Any) {
+        addItemTextField.resignFirstResponder()
+        if shouldRemindSwitch.isOn{
+            //ask once for user notification permissin her
+            let center = UNUserNotificationCenter.current()
+            center.requestAuthorization(options: [.alert, .sound]) {
+                granted, error in /* do nothing */
+            }
+        }
+    
     }
     
 }

@@ -33,7 +33,7 @@ class CheckListViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifiers.item.rawValue, for: indexPath)
         let text = cell.viewWithTag(1) as! UILabel
         let checkmark = cell.viewWithTag(2) as! UILabel
-        text.text = checklist.items[indexPath.row].name
+        text.text = "\(checklist.items[indexPath.row].name)" + "\(checklist.items[indexPath.row].itemID)"
         if checklist.items[indexPath.row].isChecked{
             checkmark.text = "√"
         }else{

@@ -26,14 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //MARK:- Notification permission and settings check
         //Request the user for notification permission
-        center.requestAuthorization(options: [.alert,.sound], completionHandler: {
-            granted, error in
-            if granted{
-                print("User gave notification Permission")
-            }else{
-                print("User did not give notification permission")
-            }
-        })
+        
         return true
     }
 
@@ -68,6 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+//this is suppose to allow notifications while in the app
 extension AppDelegate:UNUserNotificationCenterDelegate{
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         print("Recieved local notification \(notification)")

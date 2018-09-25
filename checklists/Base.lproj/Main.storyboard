@@ -126,6 +126,9 @@
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Ey2-Rm-1B8">
                                                     <rect key="frame" x="253" y="6" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="shouldRemindToggle:" destination="FLk-2z-9cM" eventType="valueChanged" id="ZDz-CK-qAE"/>
+                                                    </connections>
                                                 </switch>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Remind Me" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sGN-4B-HkL">
                                                     <rect key="frame" x="16" y="12" width="86" height="21"/>
@@ -204,7 +207,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="3BF-pl-ed9">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="216"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="216.5"/>
                                 <date key="date" timeIntervalSinceReferenceDate="559508747.01145899">
                                     <!--2018-09-24 19:05:47 +0000-->
                                 </date>
