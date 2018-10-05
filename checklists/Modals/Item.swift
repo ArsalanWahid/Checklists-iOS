@@ -36,6 +36,10 @@ class Item:NSObject, NSCoding{
         self.itemID = DataModel.nextCheckListItemID()
     }
     
+    deinit {
+        removeNotification()
+    }
+    
     //This method is for unfreezing the items when needed
     //Basically decoeds the binary to make useable in the app
     required init?(coder aDecoder: NSCoder) {
@@ -57,9 +61,10 @@ class Item:NSObject, NSCoding{
     }
     
     
-    
+    //MARK:- Notification
     //Schedule its own notification
     func scheduleNotification() {
+        removeNotification()
         if (self.shouldRemind) && (self.dueDate! > Date()) {
             // 1
             let content = UNMutableNotificationContent()
@@ -85,6 +90,11 @@ class Item:NSObject, NSCoding{
             print("DueDate:\(dueDate) vs Date:\(Date())")
         }
         
+    }
+    
+    func removeNotification() {
+        let center = UNUserNotificationCenter.current()
+        center.removePendingNotificationRequests(withIdentifiers: ["\(itemID)"])
     }
     
 }

@@ -73,7 +73,7 @@ class CheckListViewController: UITableViewController {
             let nvc = segue.destination as! UINavigationController
             let controller = nvc.topViewController as! ItemTableViewController
             controller.delegate = self
-            //Find the indexpath for the cell 
+            //Find the indexpath for the cell
             if let indexPath = tableView.indexPath(for: sender as! UITableViewCell){
                 controller.itemToEdit = checklist.items[indexPath.row]
             }
