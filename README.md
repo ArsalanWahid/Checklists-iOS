@@ -6,9 +6,9 @@ A sample T0-DO list app that lets you:
 ##### 2. Add & Edit Tasks 
 ##### 3. Set Reminders to tasks
 
+<br/>
 
 ## Learning Outcome
-
 #### 1. TableViewController
 #### 2. NavigationController
 #### 3. Passing Data b/w screens 
