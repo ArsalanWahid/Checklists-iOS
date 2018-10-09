@@ -1,12 +1,18 @@
-# Checklists-iOS
+# Description
 
-A demo iOS application showing the power of:
+A sample T0-DO list app that lets you: 
 
-#### 1.Deleagate Pattern
-#### 2.UITableViewController
-#### 3.NavigationController 
-#### 4.UserDefaults  
-#### 5.Local notifications
-#### 6.Passing Data b/w screens
+##### 1. Add and Edit CheckLists
+##### 2. Add & Edit Tasks 
+##### 3. Set Reminders to tasks
 
-This project has been made possible by [Raywenderlich](https://www.raywenderlich.com/) which provides great material for self learning, so go check them out.
+
+## Learning Outcome
+
+#### 1. TableViewController
+#### 2. NavigationController
+#### 3. Passing Data b/w screens 
+#### 4. Custom Cells for TableView
+#### 4. Using seques to make Add/Edit Screens
+#### 6. UserDefaults to save Data in Plist
+#### 5. Local notifications for task Reminders
