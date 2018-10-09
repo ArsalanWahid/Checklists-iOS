@@ -8,13 +8,10 @@
 
 
 
-/*
- 
-    how to make the date picker menu when date is clicked
- */
 import UIKit
 import UserNotifications
-//MARK:- Delegate
+
+
 protocol ItemTableViewControllerDelegate:AnyObject{
     func itemTableViewController(_ controller: ItemTableViewController, didFinishAdding item: Item)
     func itemTableViewControllerDidCancel(_ controller: ItemTableViewController)
@@ -27,7 +24,8 @@ class ItemTableViewController: UITableViewController {
     //MARK:- Properties
     var itemToEdit: Item?
     weak var delegate: ItemTableViewControllerDelegate?
-    //will hold the date from the UI
+
+    //DueDate Will hold the date from the UI
     var dueDate = Date()
     var datePickerVisable = false
     
@@ -133,7 +131,7 @@ class ItemTableViewController: UITableViewController {
         delegate?.itemTableViewControllerDidCancel(self)
     }
     
-    //Differene Logic based on Edit/ Add condition
+    //Logic for Add/Edit Item
     @IBAction func done(_ sender: Any) {
         if let item = itemToEdit{
             // This will update the data model as well since item passed
@@ -153,6 +151,7 @@ class ItemTableViewController: UITableViewController {
             delegate?.itemTableViewController(self, didFinishAdding: item)
         }
     }
+    
     @IBAction func updatedate(_ sender: Any) {
         dueDate = datePicker.date
         updateDueDateLabel()

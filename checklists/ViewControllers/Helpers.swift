@@ -9,9 +9,7 @@
 import Foundation
 
 
-//Used these enums to removes text from code to prevent errors and
-// better management
-
+//Used these enums to removes text from code to prevent type errors
 enum UserDefaultKeys:String{
     case CheckListIndex,FirstTime,CheckListItemID
 }

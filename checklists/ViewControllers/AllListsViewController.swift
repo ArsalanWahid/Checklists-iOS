@@ -9,19 +9,18 @@
 import UIKit
 
 class AllListsViewController: UITableViewController {
- 
-    //will this be affecting the code later on
+    
+    
     //MARK:- PROPERTIES
     var dataModel:DataModel!
     
     //MARK:- VIEW LIFE CYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
-        //made some changes
         title = "CheckLists"
-        print("This is going to work")
     }
     
+    //MARK:- View Life Cycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
@@ -33,10 +32,10 @@ class AllListsViewController: UITableViewController {
         let index =  dataModel.indexOfSelectedCheckList  //default value -1
         print("This is the:\(index)")
         
-        //This code was crashing as the index was sometimes out of sync
+        //Check if there are any checklists and send to next VC
         if index >= 0 && index < dataModel.checklists.count {
-        let checklist = dataModel.checklists[index]
-        performSegue(withIdentifier: segueIdentifiers.showCheckList.rawValue, sender: checklist)
+            let checklist = dataModel.checklists[index]
+            performSegue(withIdentifier: segueIdentifiers.showCheckList.rawValue, sender: checklist)
         }
     }
     
@@ -101,9 +100,9 @@ class AllListsViewController: UITableViewController {
     }
 }
 
- //MARK:- UINavigationControllerDelegate
+//MARK:- UINavigationControllerDelegate
 extension AllListsViewController:UINavigationControllerDelegate{
-   
+    
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         if viewController === self{
             dataModel.indexOfSelectedCheckList = -1
@@ -111,7 +110,7 @@ extension AllListsViewController:UINavigationControllerDelegate{
     }
 }
 
-    //MARK:- ListDetailTableViewControllerDelegate
+//MARK:- ListDetailTableViewControllerDelegate
 extension AllListsViewController:ListDetailTableViewControllerDelegate{
     
     func listTableViewControllerDidcancel(_ controller: ListDetailTableViewController) {

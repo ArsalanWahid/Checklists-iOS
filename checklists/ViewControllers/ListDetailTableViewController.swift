@@ -9,21 +9,22 @@
 import UIKit
 
 
-    //MARK:- Delegate
+//MARK:- Delegate
 protocol ListDetailTableViewControllerDelegate:AnyObject{
     func listTableViewControllerDidcancel(_ controller: ListDetailTableViewController)
     func listTableViewController(_ controller: ListDetailTableViewController, didFinishAdding checkList: CheckList)
     func listTableViewController(_ controller: ListDetailTableViewController, didFinishEditing checkList: CheckList)
-
+    
 }
 
 
 class ListDetailTableViewController: UITableViewController {
-
+    
     //MARK:- Properties
     var checkListToEdit:CheckList?
     weak var delegate:ListDetailTableViewControllerDelegate?
-    //this will hold the icon name
+    
+    
     var iconName = "Folder"
     
     //MARK:- Outlets
@@ -33,7 +34,6 @@ class ListDetailTableViewController: UITableViewController {
     
     
     //MARK:- Actions
-
     @IBAction func cancel(_ sender: Any) {
         delegate?.listTableViewControllerDidcancel(self)
     }
@@ -53,10 +53,11 @@ class ListDetailTableViewController: UITableViewController {
         }
     }
     
-    //MARK:- Life Cycle
+    //MARK:- View Life Cycle
     override func viewWillAppear(_ animated: Bool) {
         addCheckList.becomeFirstResponder()
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         addCheckList.delegate = self
@@ -70,10 +71,9 @@ class ListDetailTableViewController: UITableViewController {
             donebarButton.isEnabled = false
             iconImageView.image = UIImage(named: iconName) //when Adding a checklist icon should be something
         }
-      
+        
     }
 
-    
     //MARK:- Segues
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "pickIcon"{
@@ -83,7 +83,7 @@ class ListDetailTableViewController: UITableViewController {
     }
 }
 
-    //MARK:- TextFieldDelegate
+//MARK:- TextFieldDelegate
 extension ListDetailTableViewController:UITextFieldDelegate{
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -94,8 +94,8 @@ extension ListDetailTableViewController:UITextFieldDelegate{
     }
     
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        //Seciton start with index zero offcourse
-        //Allows control over which cell can or cant be tapped
+
+        //Allows control over which a cell can or cant be tapped
         if indexPath.section == 1{
             return indexPath
         }else{
@@ -104,7 +104,7 @@ extension ListDetailTableViewController:UITextFieldDelegate{
     }
 }
 
-    //MARK:- IconPickerViewControllerDelegate
+//MARK:- IconPickerViewControllerDelegate
 extension ListDetailTableViewController:IconPickerViewControllerDelegate{
     func inconPickerViewController(_ controller: IconPickerViewController, didPick iconName: String) {
         //set the icon name to the one select

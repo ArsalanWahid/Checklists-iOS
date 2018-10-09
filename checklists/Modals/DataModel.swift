@@ -24,8 +24,7 @@ class DataModel{
     }
     
     var checklists = [CheckList]()
-    
-    //MARK:- Initializer
+
     init(){
         loadChecklists()
         registerDefaults()
@@ -34,7 +33,7 @@ class DataModel{
     }
     
     
-    //MARK:- FILE SYSTEM
+    //MARK:- File-System Tasks
      func documentDirectory() -> URL{
         let path =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return path[0]
@@ -103,8 +102,8 @@ class DataModel{
         })
     }
     
-    //for every checklist item created this function will run
-    //default value for the key has been set to 0
+    //For every checklist item created this function will run
+    //default value for the key CheckListItemID has been set to 0
     class func nextCheckListItemID() -> Int{
         let usrdefault = UserDefaults.standard
         let itemID = usrdefault.integer(forKey: UserDefaultKeys.CheckListItemID.rawValue)
